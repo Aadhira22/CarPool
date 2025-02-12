@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
 
-class FindYourRidePage extends StatelessWidget {
+class FindYourRidePage extends StatefulWidget {
   const FindYourRidePage({super.key});
+
+  @override
+  _FindYourRidePageState createState() => _FindYourRidePageState();
+}
+
+class _FindYourRidePageState extends State<FindYourRidePage> {
+  final TextEditingController _dateController = TextEditingController();
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _dateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +72,8 @@ class FindYourRidePage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             TextField(
+              controller: _dateController,
+              readOnly: true,
               decoration: InputDecoration(
                 hintText: 'Select Date',
                 filled: true,
@@ -59,7 +82,10 @@ class FindYourRidePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide.none,
                 ),
-                suffixIcon: Icon(Icons.calendar_today),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  onPressed: () => _selectDate(context),
+                ),
               ),
             ),
             SizedBox(height: 16),
