@@ -100,6 +100,41 @@ class FindYourRidePage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 32), // Added space before previous searches
+            Text(
+              'Previous searches',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Chip(
+                    label: Text('Delhi to Mumbai'),
+                    backgroundColor: Colors.grey[200],
+                  ),
+                  SizedBox(width: 8),
+                  Chip(
+                    label: Text('Delhi to Rajasthan'),
+                    backgroundColor: Colors.grey[200],
+                  ),
+                  SizedBox(width: 8),
+                  Chip(
+                    label: Text('Mumbai to Uttar Pradesh'),
+                    backgroundColor: Colors.grey[200],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 8),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                'Clear all',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ),
           ],
         ),
       ),

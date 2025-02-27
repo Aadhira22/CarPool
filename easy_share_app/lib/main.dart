@@ -195,6 +195,7 @@ class _MainPageState extends State<MainPage> {
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
