@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'find_your_ride_page.dart';
+import 'profile.dart';
 
 void main() {
   runApp(EasyRideApp());
@@ -227,19 +228,6 @@ class InboxPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text('Inbox Page'),
-      ),
-    );
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Profile Page'),
       ),
     );
   }
