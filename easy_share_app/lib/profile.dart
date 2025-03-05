@@ -31,10 +31,10 @@ class ProfilePage extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            "John Doe",
+            " easy_Ride",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Text("john.doe@example.com"),
+          Text("easy_Ride@example.com"),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
