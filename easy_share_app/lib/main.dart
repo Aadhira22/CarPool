@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'find_your_ride_page.dart';
 import 'profile.dart';
+import 'sign_up.dart';
 
 void main() {
   runApp(EasyRideApp());
@@ -120,7 +121,12 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(color: Colors.black),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpScreen()),
+                      );
+                    },
                     child: Text(
                       " Sign up here!",
                       style: TextStyle(color: Colors.blue),

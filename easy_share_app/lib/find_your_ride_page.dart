@@ -1,32 +1,11 @@
 import 'package:flutter/material.dart';
+import 'ride_details.dart';
 
 class FindYourRidePage extends StatefulWidget {
   const FindYourRidePage({super.key});
 
   @override
   _FindYourRidePageState createState() => _FindYourRidePageState();
-}
-
-class RideDetailsPage extends StatelessWidget {
-  const RideDetailsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text('Ride details'),
-      ),
-      body: Center(
-        child: Text('Ride details Page'),
-      ),
-    );
-  }
 }
 
 class _FindYourRidePageState extends State<FindYourRidePage> {
@@ -39,11 +18,9 @@ class _FindYourRidePageState extends State<FindYourRidePage> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
-    if (pickedDate != null) {
-      setState(() {
-        _dateController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
-    }
+    setState(() {
+      _dateController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
   }
 
   void _showRideDetails() {
@@ -209,25 +186,24 @@ class _FindYourRidePageState extends State<FindYourRidePage> {
                     children: [
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Delhi to Mumbai',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Driver: John Doe · Departure: 9:00am · Seats: 2 · Cost: ₹ 20',
-                              style: TextStyle(color: Colors.grey[600]),
-                            ),
-                          ],
-                        ),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Delhi to Mumbai',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Driver: Megha · Departure: 9:00am · Seats: 1 · Cost: ₹ 200',
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
+                            ]),
                       ),
                       SizedBox(width: 16),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
-                          'assets/pfp.jpg',
+                          'assets/woman1.jpg',
                           width: 64,
                           height: 64,
                           fit: BoxFit.cover,

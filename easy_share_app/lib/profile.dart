@@ -1,20 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ProfilePage(),
-    );
-  }
-}
-
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,12 +50,13 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile(IconData icon, String title, BuildContext context, {bool isLogout = false}) {
+  Widget _buildListTile(IconData icon, String title, BuildContext context,
+      {bool isLogout = false}) {
     return ListTile(
       leading: Icon(icon, color: isLogout ? Colors.red : Colors.black),
-      title: Text(title, style: TextStyle(color: isLogout ? Colors.red : Colors.black)),
-      onTap: () {
-      },
+      title: Text(title,
+          style: TextStyle(color: isLogout ? Colors.red : Colors.black)),
+      onTap: () {},
     );
   }
 }
