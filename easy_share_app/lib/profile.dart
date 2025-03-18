@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'Personal_detail.dart';
-import 'main.dart'; // ✅ Ensure LoginPage is imported
-
+import 'main.dart'; 
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -85,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
             _buildProfileOption(Icons.payment, "Payment", context),
             _buildProfileOption(Icons.help, "Help", context),
             _buildProfileOption(Icons.settings, "Settings", context),
-            _buildProfileOption(Icons.logout, "Logout", context, isLogout: true), // ✅ Logout Button
+            _buildProfileOption(Icons.logout, "Logout", context, isLogout: true), 
           ],
         ),
       ),
@@ -118,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           });
         } else if (isLogout) {
-          _logout(context); // ✅ Call Logout Function
+          _logout(context); 
         }
       },
       child: Container(
@@ -145,7 +144,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // ✅ Logout Function
   void _logout(BuildContext context) {
     showDialog(
       context: context,
