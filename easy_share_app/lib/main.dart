@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'find_your_ride_page.dart';
 import 'profile.dart';
 import 'sign_up.dart';
+import 'forgot_password.dart';
+import 'inbox_screen.dart';
 
 void main() {
   runApp(EasyRideApp());
@@ -90,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.black,
                   padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
@@ -106,10 +108,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ResetPasswordScreen()),
+                  );
+                },
                 child: Text(
                   'Forgot Password?',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.grey),
                 ),
               ),
               SizedBox(height: 10),
@@ -129,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: Text(
                       " Sign up here!",
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.grey),
                     ),
                   ),
                 ],
@@ -167,7 +175,7 @@ class _MainPageState extends State<MainPage> {
   static final List<Widget> _pages = <Widget>[
     FindYourRidePage(),
     PublishPage(),
-    InboxPage(),
+    InboxScreen(),
     ProfilePage(),
   ];
 
@@ -221,19 +229,6 @@ class PublishPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text('Publish Page'),
-      ),
-    );
-  }
-}
-
-class InboxPage extends StatelessWidget {
-  const InboxPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Inbox Page'),
       ),
     );
   }

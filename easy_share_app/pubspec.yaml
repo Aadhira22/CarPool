@@ -64,6 +64,7 @@ flutter:
     - assets/woman.jpg
     - assets/woman1.jpg
     - assets/national_flag.jpg
+    - assets/city.jpg
    
 
   # An image asset can refer to one or more resolution-specific "variants", see

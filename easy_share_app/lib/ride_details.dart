@@ -79,7 +79,8 @@ class RideDetailsPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text('View On Map'),
+                child:
+                    Text('View On Map', style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
