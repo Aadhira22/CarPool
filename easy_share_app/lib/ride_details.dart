@@ -124,7 +124,8 @@ class PersonInfo extends StatelessWidget {
   final String imageUrl;
   final bool isDriver;
 
-  PersonInfo({
+  const PersonInfo({
+    super.key,
     required this.name,
     required this.details,
     required this.rating,
