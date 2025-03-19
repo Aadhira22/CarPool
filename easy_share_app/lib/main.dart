@@ -233,3 +233,16 @@ class PublishPage extends StatelessWidget {
     );
   }
 }
+
+// class InboxPage extends StatelessWidget {
+//   const InboxPage({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: Text('Inbox Page'),
+//       ),
+//     );
+//   }
+// }
