@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; 
 
 class PersonalDetailPage extends StatefulWidget {
   final String currentName;
@@ -8,24 +9,26 @@ class PersonalDetailPage extends StatefulWidget {
   final String currentGender;
 
   const PersonalDetailPage({
-    Key? key,
+    super.key,
     required this.currentName,
     required this.currentPhone,
     required this.currentEmail,
     required this.currentDob,
     required this.currentGender,
-  }) : super(key: key);
+  });
 
   @override
   _PersonalDetailPageState createState() => _PersonalDetailPageState();
 }
 
 class _PersonalDetailPageState extends State<PersonalDetailPage> {
+  final _formKey = GlobalKey<FormState>();
+
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
   late TextEditingController _emailController;
-  late TextEditingController _dobController;
-  late TextEditingController _genderController;
+  String? _selectedGender;
+  DateTime? _selectedDob;
 
   @override
   void initState() {
@@ -33,69 +36,158 @@ class _PersonalDetailPageState extends State<PersonalDetailPage> {
     _nameController = TextEditingController(text: widget.currentName);
     _phoneController = TextEditingController(text: widget.currentPhone);
     _emailController = TextEditingController(text: widget.currentEmail);
-    _dobController = TextEditingController(text: widget.currentDob);
-    _genderController = TextEditingController(text: widget.currentGender);
+    _selectedGender = widget.currentGender.isNotEmpty ? widget.currentGender : null;
+    _selectedDob = widget.currentDob.isNotEmpty ? DateFormat('yyyy-MM-dd').parse(widget.currentDob) : null;
+  }
+
+  // Function to Show Date Picker
+  Future<void> _pickDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDob ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.dark(), 
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null && pickedDate != _selectedDob) {
+      setState(() {
+        _selectedDob = pickedDate;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Dark Background
+      backgroundColor: Colors.black, 
       appBar: AppBar(
         title: const Text("Edit Personal Details", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black,
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.black, 
+        iconTheme: const IconThemeData(color: Colors.white), 
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            _buildTextField(_nameController, "Name"),
-            _buildTextField(_phoneController, "Phone Number"),
-            _buildTextField(_emailController, "Email"), // Added Email
-            _buildTextField(_dobController, "Date of Birth"),
-            _buildTextField(_genderController, "Gender"),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, {
-                  'name': _nameController.text,
-                  'phone': _phoneController.text,
-                  'email': _emailController.text, // Return updated email
-                  'dob': _dobController.text,
-                  'gender': _genderController.text,
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, 
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              // Name Field
+              TextFormField(
+                controller: _nameController,
+                style: const TextStyle(color: Colors.white), 
+                decoration: _inputDecoration("Name"),
+                validator: (value) => value!.isEmpty ? "Name cannot be empty" : null,
               ),
-              child: const Text("Save", style: TextStyle(color: Colors.white, fontSize: 16)),
-            ),
-          ],
+              const SizedBox(height: 15),
+
+              // Phone Number Field
+              TextFormField(
+                controller: _phoneController,
+                style: const TextStyle(color: Colors.white),
+                decoration: _inputDecoration("Phone Number"),
+                keyboardType: TextInputType.phone,
+                validator: (value) => value!.isEmpty ? "Phone number cannot be empty" : null,
+              ),
+              const SizedBox(height: 15),
+
+              // Email Field
+              TextFormField(
+                controller: _emailController,
+                style: const TextStyle(color: Colors.white),
+                decoration: _inputDecoration("Email"),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) => value!.isEmpty ? "Email cannot be empty" : null,
+              ),
+              const SizedBox(height: 15),
+
+              // Gender Dropdown
+              DropdownButtonFormField<String>(
+                value: _selectedGender,
+                dropdownColor: Colors.black, 
+                style: const TextStyle(color: Colors.white), 
+                decoration: _inputDecoration("Gender"),
+                items: ["Male", "Female", "Other"].map((gender) {
+                  return DropdownMenuItem(
+                    value: gender,
+                    child: Text(gender, style: const TextStyle(color: Colors.white)),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value;
+                  });
+                },
+                validator: (value) => value == null ? "Please select a gender" : null,
+              ),
+              const SizedBox(height: 15),
+
+              // Date of Birth Picker
+              TextFormField(
+                readOnly: true,
+                controller: TextEditingController(
+                  text: _selectedDob != null ? DateFormat('yyyy-MM-dd').format(_selectedDob!) : "",
+                ),
+                style: const TextStyle(color: Colors.white),
+                decoration: _inputDecoration("Date of Birth").copyWith(
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_today, color: Colors.white),
+                    onPressed: () => _pickDate(context),
+                  ),
+                ),
+                onTap: () => _pickDate(context),
+                validator: (value) => value!.isEmpty ? "Please select your Date of Birth" : null,
+              ),
+              const SizedBox(height: 30),
+
+              // Save Button
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pop(context, {
+                      'name': _nameController.text,
+                      'phone': _phoneController.text,
+                      'email': _emailController.text,
+                      'gender': _selectedGender ?? "",
+                      'dob': _selectedDob != null ? DateFormat('yyyy-MM-dd').format(_selectedDob!) : "",
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white, 
+                  foregroundColor: Colors.black, 
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  textStyle: const TextStyle(fontSize: 18),
+                ),
+                child: const Text("Save"),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: TextField(
-        controller: controller,
-        style: const TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: const TextStyle(color: Colors.white70),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.white70),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.blue),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
+  // Custom Input Decoration for Consistency
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: Colors.white70), 
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white70), 
+        borderRadius: BorderRadius.circular(8),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white), 
+        borderRadius: BorderRadius.circular(8),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
       ),
     );
   }
